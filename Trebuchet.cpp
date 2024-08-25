@@ -1,5 +1,6 @@
 #include "Trebuchet.h"
 #include "iostream"
+#include "fstream"
 
 void Trebuchet::readFile(std::vector<std::string> input, std::string fileName)
 {
