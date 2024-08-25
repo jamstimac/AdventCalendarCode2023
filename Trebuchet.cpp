@@ -1,42 +1,34 @@
 #include "Trebuchet.h"
-#include "iostream"
-#include "fstream"
-#include <vector>
 
-int main()
+void Trebuchet::readFile(std::vector<std::string> input, std::string fileName)
 {
-	std::vector<std::string> testInput;
+	std::fstream infile;
+	infile.open(fileName);// attempt to open file
 
-	std::ifstream infile; // file based cin
-
-	
-
-	infile.open("TestInput.txt"); // attempt to open file
-
-	// verify that file opened properly
-	// can either check for a null or use .is_open()
+	// if file exists, pull input into string vector
 	if (infile)
 	{
+		// while not at end of file
 		while (!infile.eof()) {
+			//placeholder string
 			std::string x;
-
 			infile >> x;
 
-			testInput.push_back(x);
+			// store x in string vector
+			input.push_back(x);
 		}
 
-		for (int i = 0; i < testInput.size(); i++)
+		// TEST: iterate over string vector
+		for (int i = 0; i < input.size(); i++)
 		{
-			std::cout << i+1 << ": " << testInput.at(i) << std::endl;
+			std::cout << i + 1 << ": " << input.at(i) << std::endl;
 		}
 
+		// close file
 		infile.close();
 	}
 	else
 	{
 		std::cout << "Error, file not found." << std::endl;
 	}
-
-	std::cin.get();
-	return 0;
 }

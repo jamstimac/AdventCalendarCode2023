@@ -130,6 +130,7 @@
     <ClInclude Include="Trebuchet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Trebuchet.cpp" />
   </ItemGroup>
   <ItemGroup>
