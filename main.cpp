@@ -23,6 +23,7 @@ int main()
 	std::cout << std::endl << std::endl;
 	//
  
+	/// Cube Game --- Problem 2 ///
 	// Test scenario is "possible to have 12 red, 13 green, and 14 blue cubes"
 	int totalRedCubes = 12;
 	int totalGrCubes = 13;
@@ -42,7 +43,6 @@ int main()
 		// split game #: off i == game num
 		for (int j = 8; j < stringSize; j++)
 		{
-			// std::cout << "game " << i << ": " << testInput.at(i).at(j);
 			// if first letter is r but not in green
 			if (testInput.at(i).at(j) == 'r' && testInput.at(i).at(j-1) != 'g')
 			{
