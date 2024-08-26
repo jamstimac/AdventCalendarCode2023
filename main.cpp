@@ -6,30 +6,34 @@ int main()
 {
 	// vector string
 	std::vector<std::string> testInput;
-	std::vector<char> parsedStrings;
-	
-	// editable filename
-	std::string fileName = "TestInput.txt";
+	std::vector<int> parsedStrings;
 
-	// read file
+	int vecSize;
+
+	// editable filename
+	std::string const fileName = "TrebuchetInput.txt";
+
+	// read file and save input to vector<string>
 	Trebuchet::readFile(testInput, fileName);
 
-	// 
+	// white space
 	std::cout << std::endl << std::endl;
 	//
  
-	// FIXME: doesn't save input to testInput
 	// start: read individual chars
 	// iterate over testInput string vector
-	for (int i = 0; i < testInput.size(); i++)
+	Trebuchet::convertChartoInt(testInput, parsedStrings);
+
+	// add each parsed string int together
+	vecSize = parsedStrings.size();
+	int final = 0;
+	for (int i = 0; i < vecSize; i++)
 	{
-		// iterate over individual string length
-		for (int j = 0; j < testInput.at(i).size(); j++)
-		{
-			std::cout << "saved char from " << i << ". in string at " << j << ": " << testInput.at(i).at(j) << std::endl;
-			parsedStrings.push_back(testInput.at(i).at(j));
-		}
+		final += parsedStrings.at(i);
 	}
+
+	// print final count of parsed strings added together
+	std::cout << "The current answer is: " << final << std::endl;
 
 	std::cin.get();
 	return 0;
