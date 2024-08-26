@@ -18,6 +18,12 @@
     <ClInclude Include="Trebuchet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CubeConundrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Trebuchet.cpp">
@@ -26,12 +32,24 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CubeConundrum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="TestInput.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="TrebuchetInput.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="CubeTest.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="CubeInput.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

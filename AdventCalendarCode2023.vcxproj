@@ -127,13 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CubeConundrum.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="Trebuchet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CubeConundrum.cpp" />
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Trebuchet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CubeInput.txt" />
+    <Text Include="CubeTest.txt" />
     <Text Include="TestInput.txt" />
     <Text Include="TrebuchetInput.txt" />
   </ItemGroup>
