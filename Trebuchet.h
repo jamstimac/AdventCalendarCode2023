@@ -23,7 +23,7 @@ public:
 	/// Add all parsed ints together and cout final result
 	/// </summary>
 	/// <param name="parsedInput"></param>
-	static void printFinalAdditionParsedStrings(std::vector<int>parsedInput&);
+	static void printFinalAdditionParsedStrings(std::vector<int>& parsedInput );
 
 };
 

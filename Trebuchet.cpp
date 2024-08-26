@@ -92,3 +92,17 @@ void Trebuchet::convertChartoInt(std::vector<std::string>& input, std::vector<in
 	}
 	
 }
+// Add all parsed ints together and cout final result
+void Trebuchet::printFinalAdditionParsedStrings(std::vector<int>& parsedInput)
+{
+	// add each parsed string int together
+	int vecSize = parsedInput.size();
+	int final = 0;
+	for (int i = 0; i < vecSize; i++)
+	{
+		final += parsedInput.at(i);
+	}
+
+	// print final count of parsed strings added together
+	std::cout << "The current answer is: " << final << std::endl;
+}
