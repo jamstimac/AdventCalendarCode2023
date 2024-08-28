@@ -10,3 +10,21 @@ std::string CubeConundrum::returnTwoDigitNumAsString(char& a, char& b)
 	// return concatenated string
 	return holderA + holderB;
 }
+
+std::string CubeConundrum::returnStringofGameNumBool(int& gameNum, bool bPossible)
+{
+	// turn game num into a string
+	std::string holderNum = std::to_string(gameNum);
+	std::string holderBool;
+ 
+	if (bPossible)
+	{
+		holderBool = "t";
+	}
+	else
+	{
+		holderBool = "f";
+	}
+
+	return holderNum + holderBool;
+}

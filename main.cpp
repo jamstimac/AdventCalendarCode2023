@@ -23,7 +23,7 @@ int main()
 	// white space
 	std::cout << std::endl << std::endl;
 	//
- 
+
 	/// Cube Game --- Problem 2 ///
 	// Runs CubeInput.txt or CubeTest.txt 
 	// run FileReader::readFile(..., ..., 1)
@@ -33,7 +33,7 @@ int main()
 
 	// stores reduced game strings
 	std::vector<std::string> gamesReduced;
-	
+
 	// temp string to push back into gamesReduced
 	// 0 - game #-1, 1 - color, 2 - amount
 	std::string str;
@@ -42,12 +42,27 @@ int main()
 	for (int i = 0; i < vecSize; i++)
 	{
 		stringSize = testInput.at(i).size();
+
 		
-		// split game #: off i == game num
-		for (int j = 8; j < stringSize; j++)
+		int startPoint = 0;
+		if (testInput.at(i).at(6) == ':')
+		{
+			startPoint = 8;
+		}
+		if (testInput.at(i).at(7) == ':')
+		{
+			startPoint = 9;
+		}
+		if (testInput.at(i).at(8) == ':')
+		{
+			startPoint = 10;
+		}
+
+		// split game ###: off i == game num
+		for (int j = startPoint; j < stringSize; j++)
 		{
 			// if first letter is r but not in green
-			if (testInput.at(i).at(j) == 'r' && testInput.at(i).at(j-1) != 'g')
+			if (testInput.at(i).at(j) == 'r' && testInput.at(i).at(j - 1) != 'g')
 			{
 				// store temp string
 				str = std::to_string(i);
@@ -57,8 +72,7 @@ int main()
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(std::string(1, testInput.at(i).at(j - 3)));
-					str.append(std::string(1, testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
@@ -74,25 +88,24 @@ int main()
 				// store temp string
 				str = std::to_string(i);
 				str.append(std::string(1, testInput.at(i).at(j)));
-				
+
 				// get more than one digit if possible
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(std::string(1, testInput.at(i).at(j - 3)));
-					str.append(std::string(1, testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
 					str.append(std::string(1, testInput.at(i).at(j - 2)));
 				}
-				
+
 
 
 				// pushback to gamesReduced
 				gamesReduced.push_back(str);
 			}
-			
+
 			// if first letter is b
 			if (testInput.at(i).at(j) == 'b')
 			{
@@ -104,8 +117,7 @@ int main()
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(std::string(1, testInput.at(i).at(j - 3)));
-					str.append(std::string(1, testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
@@ -118,72 +130,161 @@ int main()
 
 		}
 	}
-	// TEST: Run gamesreduced size to compare with 
-	std::cout << "game, color, amount " << std::endl;
-	vecSize = gamesReduced.size();
-	for (int i = 0; i < vecSize; i++)
-	{
-		int currentAmount = 0;
-		if (gamesReduced.at(i).length() == 4)
-		{
-			std::string temp = CubeConundrum::returnTwoDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
-
-			int currentAmount = std::stoi(temp);
-			std::cout << "CurrentAmount = " << currentAmount << std::endl;
-		}
-		else {
-			int currentAmount = gamesReduced.at(i).at(2) - 0 - 48;//conv & adjust for ascii
-			std::cout << "CurrentAmount = " << currentAmount << std::endl;
-		}
-
-		std::cout << gamesReduced.at(i).at(0)
-			<< gamesReduced.at(i).at(1) << currentAmount
-			<< std::endl;
-	}
 
 	// Test scenario is "possible to have 12 red, 13 green, and 14 blue cubes"
 	int totalRdCubes = 12;
 	int totalGrCubes = 13;
 	int totalBlCubes = 14;
 
-	// adds game ids starting with 1
+	// total potential possible games, subtract games as they are proved false
+	// uses vecSize from original amount of games
 	int totalGameID = 0;
-	std::vector<int> tempGameIDs;
-	// iterate over gamesReduced
+	totalGameID += vecSize;
 	for (int i = 0; i < vecSize; i++)
 	{
-		// format [game#][color][amount] ex: 0g3
-		char currentGame = gamesReduced.at(i).at(0) - 0 - 48 + 1;
-		char currentColor = gamesReduced.at(i).at(1); 
+		totalGameID += i;
+	}
+	std::cout << "total possible gameID: " << totalGameID << std::endl << std::endl;
+
+	// TEST:: Do the games reduce properly
+	vecSize = gamesReduced.size();
+	for (int i = 0; i < vecSize; i++)
+	{
+		// format [game#][color][amount] ex: 0g3(3)
+		int currentGame = std::stoi(std::string(1, gamesReduced.at(i).at(0))) + 1; // add one to keep logical first game num
+
 		int currentAmount = 0;
-		if (gamesReduced.at(i).length() == 4) 
+		// if length is 4 then number is 2 digits, need to convert differently
+		if (gamesReduced.at(i).length() == 4)
 		{
 			std::string temp = CubeConundrum::returnTwoDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
 
-			int currentAmount = std::stoi(temp);
-			std::cout << "CurrentAmount = " << currentAmount << std::endl;
+			currentAmount = std::stoi(temp);
 		}
-		else {
-			int currentAmount = gamesReduced.at(i).at(2) - 0 - 48;//conv & adjust for ascii
-			std::cout << "CurrentAmount = " << currentAmount << std::endl;
-		}
-		// 
-		std::cout << "current game: " << i << std::endl;
-		if ((currentAmount != 0) &&
-			(currentColor == 'r' && currentAmount <= totalRdCubes) ||
-			(currentColor == 'g' && currentAmount <= totalGrCubes) ||
-			(currentColor == 'b' && currentAmount <= totalBlCubes))
+		// else if only single digit
+		else
 		{
-			std::cout << "current color, amount: " << currentColor << ", " << currentAmount << std::endl;
-			tempGameIDs.push_back(currentGame);
+			currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(2)));//conv to str then int
 		}
+		// save current color char as string
+		std::string currentColor = std::string(1, gamesReduced.at(i).at(1));
+
+		std::cout << "[game#][color][amount] :: " << currentGame << currentColor << currentAmount << std::endl;
+
 	}
 
-	vecSize = tempGameIDs.size();
+	// get size of gamesReduced vector
+	vecSize = gamesReduced.size();
+
+	// holds previous game int to make sure we're still in same game later
+	// initialized to first game
+	// changes when games are found impossible
+	int previousGame = 1;
+	bool haventSubtracted = true;
+
+	// iterate over gamesReduced
 	for (int i = 0; i < vecSize; i++)
 	{
+		// format [game#][color][amount] ex: 0g3(3)
+		int currentGame = std::stoi(std::string(1, gamesReduced.at(i).at(0))) + 1; // add one to keep logical first game num
 
+		
+
+		// initialize current amount
+		int currentAmount = 0;
+
+		// if length is 4 then number is 2 digits, need to convert differently
+		if (gamesReduced.at(i).length() == 4)
+		{
+			std::string temp = CubeConundrum::returnTwoDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
+
+			currentAmount = std::stoi(temp);
+		}
+		// else if only single digit
+		else 
+		{
+			currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(2)));//conv to str then int
+		}
+
+		// save current color char as string
+		std::string currentColor = std::string(1, gamesReduced.at(i).at(1));
+		// 
+		std::cout << "current game: " << currentGame << "   ";
+		std::cout << "current index: " << i << "   ";
+		std::cout << "current color: " << currentColor << "   ";
+		std::cout << "current amount: " << currentAmount << std::endl;
+
+		bool exitCondition = false;
+
+
+		// while parsing games
+		while (!exitCondition)
+		{
+
+			// if current color and amount are not possible
+			if ((currentColor == "r") && (currentAmount > totalRdCubes))
+			{
+				if (haventSubtracted) {
+					// subtract that game num from the total
+					std::cout << "subtracting " << currentGame << "from gameTotal" << std::endl;
+					totalGameID -= currentGame;
+					haventSubtracted = false;
+				}
+				exitCondition = true;
+			}
+			// if current color and amount are not possible
+			if ((currentColor == "g") && (currentAmount > totalGrCubes))
+			{
+				if (haventSubtracted) {
+					// subtract that game num from the total
+					std::cout << "subtracting " << currentGame << "from gameTotal" << std::endl;
+					totalGameID -= currentGame;
+					haventSubtracted = false;
+				}
+				else
+				{
+					std::cout << "already subtracted" << std::endl;
+				}
+				exitCondition = true;
+			}
+
+			// if current color and amount are not possible 
+			if ((currentColor == "b") && (currentAmount > totalBlCubes))
+			{
+				if (haventSubtracted) {
+					// subtract that game num from the total
+					std::cout << "subtracting " << currentGame << "from gameTotal" << std::endl;
+					totalGameID -= currentGame;
+					haventSubtracted = false;
+				}
+				exitCondition = true;
+			}
+
+			if ((currentColor == "r") && (currentAmount <= totalRdCubes) ||
+				(currentColor == "g") && (currentAmount <= totalGrCubes) ||
+				(currentColor == "b") && (currentAmount <= totalBlCubes))
+			{
+				// exit while, do not change add to game total,
+				// this case requires that num and color are possible
+				std::cout << " not subtracting " << currentGame << "from gameTotal" << std::endl;
+				exitCondition = true;
+			}
+		}
+
+		if (previousGame != currentGame)
+		{
+			std::cout << previousGame << " <- previous ... current -> " << currentGame;
+			previousGame = currentGame;
+			haventSubtracted = true;
+		}
+		std::cout << std::endl;
 	}
+
+	//vecSize = tempGameIDs.size();
+	//for (int i = 0; i < vecSize; i++)
+	//{
+
+	//}
 
 	std::cout << "the answer is... " << totalGameID;
 

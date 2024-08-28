@@ -12,5 +12,14 @@ public:
 	/// <param name="b"></param>
 	/// <returns></returns>
 	static std::string returnTwoDigitNumAsString(char& a, char& b);
+	
+	/// <summary>
+	/// returns a two character string with [game#][t/f] to be parsed whether a game is possible or not.
+	/// 1 false return means that game number cannot be added to the game ID total.
+	/// </summary>
+	/// <param name="gameNum"></param>
+	/// <param name="bPossible"></param>
+	/// <returns></returns>
+	static std::string returnStringofGameNumBool(int& gameNum, bool bPossible);
 };
 
