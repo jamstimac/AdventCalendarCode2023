@@ -61,18 +61,23 @@ int main()
 		// split game ###: off i == game num
 		for (int j = startPoint; j < stringSize; j++)
 		{
+
 			// if first letter is r but not in green
 			if (testInput.at(i).at(j) == 'r' && testInput.at(i).at(j - 1) != 'g')
 			{
-				// store temp string
+				// store game num
 				str = std::to_string(i);
+				std::cout << "current index = game num = " << i << std::endl;
+
+				// store color
 				str.append(std::string(1, testInput.at(i).at(j)));
 
+				// store amount of cubes
 				// get more than one digit if possible
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
@@ -85,22 +90,24 @@ int main()
 			// if first letter is g
 			if (testInput.at(i).at(j) == 'g')
 			{
-				// store temp string
+				// store game num
 				str = std::to_string(i);
+				std::cout << "current index = game num = " << i << std::endl;
+
+				// store color
 				str.append(std::string(1, testInput.at(i).at(j)));
 
+				// store amount of cubes
 				// get more than one digit if possible
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
 					str.append(std::string(1, testInput.at(i).at(j - 2)));
 				}
-
-
 
 				// pushback to gamesReduced
 				gamesReduced.push_back(str);
@@ -109,15 +116,19 @@ int main()
 			// if first letter is b
 			if (testInput.at(i).at(j) == 'b')
 			{
-				// store temp string
+				// store game num
 				str = std::to_string(i);
+				std::cout << "current index = game num = " << i << std::endl;
+
+				// store color
 				str.append(std::string(1, testInput.at(i).at(j)));
 
+				// store amount of cubes
 				// get more than one digit if possible
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnTwoDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
 				}
 				else
 				{
@@ -139,7 +150,7 @@ int main()
 	// total potential possible games, subtract games as they are proved false
 	// uses vecSize from original amount of games
 	int totalGameID = 0;
-	totalGameID += vecSize;
+	totalGameID += static_cast<int>(vecSize);
 	for (int i = 0; i < vecSize; i++)
 	{
 		totalGameID += i;
@@ -150,24 +161,90 @@ int main()
 	vecSize = gamesReduced.size();
 	for (int i = 0; i < vecSize; i++)
 	{
-		// format [game#][color][amount] ex: 0g3(3)
-		int currentGame = std::stoi(std::string(1, gamesReduced.at(i).at(0))) + 1; // add one to keep logical first game num
-
 		int currentAmount = 0;
-		// if length is 4 then number is 2 digits, need to convert differently
-		if (gamesReduced.at(i).length() == 4)
-		{
-			std::string temp = CubeConundrum::returnTwoDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
+		int currentGame = 0;
+		std::string currentColor = "";
+		std::string temp = "";
 
-			currentAmount = std::stoi(temp);
+		// format [game#][color][amount] ex: 0g3(3)
+		if (gamesReduced.at(i).length() == 3)
+		{
+			currentGame = std::stoi(std::string(1, gamesReduced.at(i).at(0))) + 1; // add one to keep logical first game num
+			currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(2)));//conv to str then int
+			currentColor = std::string(1, gamesReduced.at(i).at(1));
+			// if length is 4 then number is 2 digits, need to convert differently
 		}
-		// else if only single digit
+		// game number is double digit or amount number is double digit
+		else if (gamesReduced.at(i).length() == 4)
+		{
+			
+
+			// with single digit game number means 
+			if (gamesReduced.at(i).at(1) == 'r' ||
+				gamesReduced.at(i).at(1) == 'g' ||
+				gamesReduced.at(i).at(1) == 'b')
+			{
+				// game #
+				currentGame = std::stoi(std::string(1, gamesReduced.at(i).at(0)));
+
+				// amount
+				temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
+				currentAmount = std::stoi(temp);
+
+				// color
+				currentColor = std::string(1, gamesReduced.at(i).at(1));
+			}
+
+			// with double digit game number
+			if (gamesReduced.at(i).at(2) == 'r' ||
+				gamesReduced.at(i).at(2) == 'g' ||
+				gamesReduced.at(i).at(2) == 'b')
+			{
+				// game # 10-99
+				temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(0), gamesReduced.at(i).at(1));
+				currentGame = std::stoi(temp);
+
+				// amount
+				currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(1)));
+
+				// color
+				currentColor = std::string(1, gamesReduced.at(i).at(2));
+			}
+
+		}
+		// triple digit game number
 		else
 		{
-			currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(2)));//conv to str then int
+			// single digit amount
+			if (gamesReduced.at(i).length() == 5)
+			{
+				// game # 100-999
+				temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(0), gamesReduced.at(i).at(1), gamesReduced.at(i).at(2), 1);
+				currentGame = std::stoi(temp);
+
+				// amount
+				currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(4)));
+
+				// color
+				currentColor = std::string(1, gamesReduced.at(i).at(3));
+			}
+			// double digit amount
+			if (gamesReduced.at(i).length() == 6)
+			{
+				// game # 100-999
+				temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(0), gamesReduced.at(i).at(1), gamesReduced.at(i).at(2), 1);
+				currentGame = std::stoi(temp);
+
+				// amount
+				temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(4), gamesReduced.at(i).at(5));
+				currentAmount = std::stoi(temp);
+
+				// color
+				currentColor = std::string(1, gamesReduced.at(i).at(3));
+			}
 		}
 		// save current color char as string
-		std::string currentColor = std::string(1, gamesReduced.at(i).at(1));
+		
 
 		std::cout << "[game#][color][amount] :: " << currentGame << currentColor << currentAmount << std::endl;
 
@@ -196,7 +273,7 @@ int main()
 		// if length is 4 then number is 2 digits, need to convert differently
 		if (gamesReduced.at(i).length() == 4)
 		{
-			std::string temp = CubeConundrum::returnTwoDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
+			std::string temp = CubeConundrum::returnMulDigitNumAsString(gamesReduced.at(i).at(2), gamesReduced.at(i).at(3));
 
 			currentAmount = std::stoi(temp);
 		}
