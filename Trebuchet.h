@@ -12,7 +12,7 @@ public:
 	/// </summary>
 	/// <param name="input"></param>
 	/// <param name="returnVector"></param>
-	static void convertChartoInt(std::vector<std::string>& input, std::vector<int>& returnVector);
+	static void convertCharStrtoInt(std::vector<std::string>& input, std::vector<int>& returnVector);
 
 	/// <summary>
 	/// Add all parsed ints together and cout final result

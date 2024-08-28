@@ -5,7 +5,7 @@
 
 
 // read individual chars within a string and return a two digit number based on the ints within them. 
-void Trebuchet::convertChartoInt(std::vector<std::string>& input, std::vector<int>& returnVector)
+void Trebuchet::convertCharStrtoInt(std::vector<std::string>& input, std::vector<int>& returnVector)
 {
 	// holds the two chars
 	char hold1 = 0;
