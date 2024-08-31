@@ -15,7 +15,7 @@ int main()
 	size_t stringSize;
 
 	// editable filename
-	std::string const fileName = "CubeTest.txt";
+	std::string const fileName = "CubeInput.txt";
 
 	// read file and save input to vector<string>
 	FileReader::readFile(testInput, fileName, 1);
@@ -77,7 +77,8 @@ int main()
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					std::string temp = CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2));
+					str.append(temp);
 				}
 				else
 				{
@@ -102,7 +103,8 @@ int main()
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					std::string temp = CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2));
+					str.append(temp);
 				}
 				else
 				{
@@ -128,7 +130,8 @@ int main()
 				if (testInput.at(i).at(j - 3) != ' ')
 				{
 					// first then second digit
-					str.append(CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2)));
+					std::string temp = CubeConundrum::returnMulDigitNumAsString(testInput.at(i).at(j - 3), testInput.at(i).at(j - 2));
+					str.append(temp);
 				}
 				else
 				{
@@ -179,7 +182,7 @@ int main()
 		{
 			
 
-			// with single digit game number means 
+			// with single digit game number means double digit amount
 			if (gamesReduced.at(i).at(1) == 'r' ||
 				gamesReduced.at(i).at(1) == 'g' ||
 				gamesReduced.at(i).at(1) == 'b')
@@ -205,7 +208,7 @@ int main()
 				currentGame = std::stoi(temp);
 
 				// amount
-				currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(1)));
+				currentAmount = std::stoi(std::string(1, gamesReduced.at(i).at(3)));
 
 				// color
 				currentColor = std::string(1, gamesReduced.at(i).at(2));
